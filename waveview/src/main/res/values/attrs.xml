@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveView">
+        <attr name="wave_length" format="float"/>
+        <attr name="start_offsetX" format="float"/>
+        <attr name="peak" format="float"/>
+        <attr name="color" format="color"/>
+        <attr name="x_velocity" format="float"/>
+        <attr name="total_duration" format="integer"/>
+    </declare-styleable>
+</resources>

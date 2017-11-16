@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.lm.waveview.example.MainActivity">
+
+    <com.lm.waveview.WaveView
+        android:id="@+id/wave"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:wave_length="600"
+        app:total_duration="6000"
+        app:start_offsetX="-20"
+        app:color="#ffff69b4"/>
+
+    <Button
+        android:id="@+id/btn_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="begin"
+        android:onClick="onClick"/>
+
+</LinearLayout>
