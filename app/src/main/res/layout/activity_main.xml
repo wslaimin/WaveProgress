@@ -10,7 +10,7 @@
     <com.lm.waveview.WaveView
         android:id="@+id/wave"
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         app:wave_length="600"
         app:total_duration="6000"
         app:start_offsetX="-20"
@@ -21,6 +21,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="begin"
+        android:onClick="onClick"/>
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset"
         android:onClick="onClick"/>
 
 </LinearLayout>

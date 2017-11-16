@@ -17,7 +17,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view){
         WaveView waveView=(WaveView)findViewById(R.id.wave);
-        for(int i=0;i<=100;i+=10)
-        waveView.setProgress(i);
+        switch (view.getId()){
+            case R.id.btn_begin:
+                for(int i=0;i<=100;i+=10)
+                    waveView.setProgress(i);
+                break;
+            case R.id.btn_reset:
+                waveView.reset();
+                break;
+            default:
+                break;
+        }
+
     }
 }

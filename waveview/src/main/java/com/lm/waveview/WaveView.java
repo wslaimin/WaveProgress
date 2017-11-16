@@ -53,6 +53,10 @@ public class WaveView extends View {
     private int mColor;
     //动画延迟时间
     private int mAnimationDelay = 0;
+    //startPoint在Y方向初始坐标(控件高度大于宽度，进度在Y方向上位移范围为2*radius，非控件高度)
+    private float mProgressBottom;
+    //圆半径
+    private float mRadius;
 
     public WaveView(Context context) {
         super(context);
@@ -116,7 +120,7 @@ public class WaveView extends View {
                     mTotalOffsetX += mXVelocity;
                     mTotalOffsetX %= mWaveLength;
                     mStartPoint.x = -mWaveLength + mStartOffsetX + mTotalOffsetX;
-                    mStartPoint.y = getMeasuredHeight() * (1 - nowProgress / 100f);
+                    mStartPoint.y = mProgressBottom - 2 * mRadius * nowProgress / 100f;
                     invalidate();
                 }
             }
@@ -126,9 +130,20 @@ public class WaveView extends View {
 
         //进度到100%时防止波谷露出
         if (progress == 100) {
-            int extraProgress = (int) (mPeak / getMeasuredHeight() * 100);
+            //0%防止波峰露出，位置下移一个振幅，100%防止波谷露出，位置上一一个振幅，所以额外移动距离为2*mPeak
+            //extraProgress = (int) (2*mPeak / (2*mRadius) * 100)
+            int extraProgress = (int) (mPeak / mRadius * 100);
             setProgress(extraProgress == 0 ? 101 : 100 + extraProgress);
         }
+    }
+
+    public void reset(){
+        mProgress=0;
+        mAnimationDelay=0;
+        mTotalOffsetX=0;
+        mStartPoint.x=-mWaveLength + mStartOffsetX;
+        mStartPoint.y=mProgressBottom;
+        invalidate();
     }
 
     public int getProgress() {
@@ -175,13 +190,15 @@ public class WaveView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        mRadius = getMeasuredWidth() < getMeasuredHeight() ? getMeasuredWidth() / 2f : getMeasuredHeight() / 2f;
+        mClipPath.addCircle(getMeasuredWidth() / 2f, getMeasuredHeight() / 2f, mRadius, Path.Direction.CCW);
+
         //初始化StartPoint,左边预留出一个周期的移动长度
         mStartPoint.x = -mWaveLength + mStartOffsetX;
+        float gap = (getMeasuredHeight() - 2 * mRadius) / 2f;
         //防止波峰露出
-        mStartPoint.y = getMeasuredHeight() + mPeak;
-
-        float radius = getMeasuredWidth() < getMeasuredHeight() ? getMeasuredWidth() / 2f : getMeasuredHeight() / 2f;
-        mClipPath.addCircle(getMeasuredWidth() / 2f, getMeasuredHeight() / 2f, radius, Path.Direction.CCW);
+        mProgressBottom = getMeasuredHeight() - gap + mPeak;
+        mStartPoint.y = mProgressBottom;
     }
 
     @Override
